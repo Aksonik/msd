@@ -1,15 +1,19 @@
 # msd
 
-## calculates mean squere displacement
+## Calculates mean squere displacement.
 
-#### input file format
+#### Input file format
 
 time x y z
 
-#### options
+#### Options
 
--a/-b (int): range of frames, e.g. to skip equilibration time
+-a (int) -b (int): range of frames, e.g. to skip equilibration time
 
--m/-n (int): range of time lags, i.e. observation window
+-m (int) -n (int): range of time lags, i.e. observation window
+
+### Remarks
+
+Much slower MSD calculation with *awk* (*test* directory) is for comparison.
 
 
