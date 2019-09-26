@@ -8,7 +8,7 @@ time x y z
 
 #### Options
 
-*-a* (float) *-b* (float): range of frames, e.g. to skip equilibration time.
+*-a* (float) *-b* (float): range of time, e.g. to skip equilibration time.
 
 *-m* (float) *-n* (float): range of time lags, i.e. observation window.
 
