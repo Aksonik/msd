@@ -8,8 +8,9 @@
 awk 'BEGINE{f=0}
 {if($1>=0.0)					### first 0 ns is equilibration
   {f=f+1					### frame [fr]
-   x[f]=$2;y[f]=$3;z[f]=$4}}			### read coordinates [nm]
-   END{for(tt=100;tt<=1000;tt=tt+1)		### 10-100 ns every 100 ps (time lag)
+   time[f]=$1;x[f]=$2;y[f]=$3;z[f]=$4}}		### read coordinates [A]
+   END{dt=time[f]/f				### time step for units
+       for(tt=100;tt<=1000;tt=tt+1)		### 10-100 ns every 100 ps (time lag)
         {rr=0
          for(t=1;t<=f-tt;t=t+1)			### for each frame [fr]
            {xx[t]=x[t+tt]-x[t]			### calculate difference with lag
@@ -17,7 +18,6 @@ awk 'BEGINE{f=0}
             zz[t]=z[t+tt]-z[t]
             rr=rr+xx[t]^2+yy[t]^2+zz[t]^2	### throw squares to one bin
            }					
-           print tt*0.1,rr/t
+           print tt*dt,rr/t			### units as in the input file [ns][A^2]
         }
       }' ../pro.xyz > msd_awk.dat
-

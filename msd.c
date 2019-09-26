@@ -5,8 +5,8 @@
 /*
 calculates mean square displacement
 input file format: time x y z
--a/-b (int): range of frames, e.g if want to skip equilibration time
--m/-n (int): range of time lags, i.e. observation window
+-a/-b : range of frames, e.g if want to skip equilibration time
+-m/-n : range of time lags, i.e. observation window
 */
 
 int main(int argc,char **argv){
@@ -46,6 +46,10 @@ int main(int argc,char **argv){
 
  fclose(inputFile);
 
+// time step for units to frames and frames to units conversion
+ float dt;
+ dt=time[i-1]/(i-1);
+
 // default time range, i.e max.
  t1=1;
  t2=i-1;
@@ -60,16 +64,16 @@ int main(int argc,char **argv){
 
  while((opt=getopt(argc,argv,"a:b:m:n:")) != -1){
   switch (opt){
-  case 'a': t1=atoi(optarg); break;
-  case 'b': t2=atoi(optarg); break;
-  case 'm': tl1=atoi(optarg); break;
-  case 'n': tl2=atoi(optarg); break;
+  case 'a': t1=(float)(atof(optarg)/dt); break;		// units to frames
+  case 'b': t2=(float)(atof(optarg)/dt); break;
+  case 'm': tl1=(float)(atof(optarg)/dt); break;
+  case 'n': tl2=(float)(atof(optarg)/dt); break;
   default:
-   fprintf(stderr,"Usage: %s [-abc] [file...]\n", argv[0]);
+   fprintf(stderr,"Usage: %s [-abmn] [file...]\n", argv[0]);
    exit(EXIT_FAILURE);
   }
  }
-
+ printf("%i %i %i %i\n",t1,t2,tl1,tl2);
 // msd
 
  FILE *outputFile;
@@ -83,7 +87,7 @@ int main(int argc,char **argv){
    zz[t]=z[t+tl]-z[t];
    rr=rr+xx[t]*xx[t]+yy[t]*yy[t]+zz[t]*zz[t];
   }
-  fprintf(outputFile,"%f %f\n",tl*0.1,rr/t);
+  fprintf(outputFile,"%.3f %f\n",tl*dt,rr/t);	// frames to units
  }
 
  fclose(outputFile);
