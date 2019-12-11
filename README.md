@@ -18,3 +18,5 @@ Much slower MSD calculation with *awk* (*test* directory) is for comparison.
 
 Output data are in the same units as input data, e.g. if time and coordinates are in *ns* and *A*
 the MSD and time are in *A<sup>2</sup>* and *ns*.
+
+The work was done at the Michigan State University.
